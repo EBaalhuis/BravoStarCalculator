@@ -1,0 +1,116 @@
+﻿@page "/"
+
+<style>
+    th, td {
+        padding: 5px;
+    }
+</style>
+
+<h1><i>Bravo, Star of the Show</i> calculator</h1>
+
+<table>
+    <tr>
+        <td>Earth cards (excl Pulses)</td>
+        <td><input type="number" style="width:80px;" maxlength="2" @onchange="eventArgs => { UpdateNumber(0, eventArgs.Value); }"/></td>
+    </tr>
+
+    <tr>
+        <td>Ice cards (excl Pulses)</td>
+        <td><input type="number" style="width:80px;" maxlength="2" @onchange="eventArgs => { UpdateNumber(1, eventArgs.Value); }" /></td>
+    </tr>
+
+    <tr>
+        <td>Lightning cards (excl Pulses)</td>
+        <td><input type="number" style="width:80px;" @onchange="eventArgs => { UpdateNumber(2, eventArgs.Value); }" /></td>
+    </tr>
+
+    <tr>
+        <td>Pulse of Isenloft (Earth+Ice)</td>
+        <td><input type="checkbox" id="isenloft" @onchange="eventArgs => { PulseClicked(0, eventArgs.Value); }" /></td>
+    </tr>
+
+    <tr>
+        <td>Pulse of Candlehold (Earth+Lightning)</td>
+        <td><input type="checkbox" id="candlehold" @onchange="eventArgs => { PulseClicked(1, eventArgs.Value); }" /></td>
+    </tr>
+
+    <tr>
+        <td>Pulse of Volthaven (Ice+Lightning)</td>
+        <td><input type="checkbox" id="volthaven" @onchange="eventArgs => { PulseClicked(2, eventArgs.Value); }" /></td>
+    </tr>
+
+    <tr>
+        <td>5th card (from e.g. Crown of Seeds)</td>
+        <td><input type="checkbox" id="crown" @onchange="eventArgs => { CrownClicked(eventArgs.Value); }" /></td>
+    </tr>
+</table>
+
+<div>
+    <p><h3>Result: @result%</h3></p>
+</div>
+
+<p></p>
+
+@code {
+    private int earth = 0;
+    private int ice = 0;
+    private int lightning = 0;
+
+    private int pulseEarthIce = 0;
+    private int pulseEarthLightning = 0;
+    private int pulseIceLightning = 0;
+
+    private int deckSize = 60;
+    private int rest => deckSize - earth - ice - lightning;
+    private int draw = 4;
+    private double result = 0;
+
+    private void UpdateNumber(int element, object value)
+    {
+        int res = int.Parse((string)value);
+        switch(element)
+        {
+            case 0:
+                earth = res;
+                break;
+            case 1:
+                ice = res;
+                break;
+            case 2:
+                lightning = res;
+                break;
+        }
+        UpdateResult();
+    }
+
+    private void PulseClicked(int element, object value)
+    {
+        int result = (bool)value ? 1 : 0;
+        switch(element)
+        {
+            case 0:
+                pulseEarthIce = result;
+                break;
+            case 1:
+                pulseEarthLightning = result;
+                break;
+            case 2:
+                pulseIceLightning = result;
+                break;
+        }
+        UpdateResult();
+    }
+
+    private void CrownClicked(object value)
+    {
+        draw = (bool)value ? 5 : 4;
+        UpdateResult();
+    }
+
+    private void UpdateResult()
+    {
+        result = Calculator.Calculate(earth, ice, lightning, pulseEarthIce, pulseEarthLightning, pulseIceLightning, draw: draw);
+        result = Math.Round(result*100, 2);
+    }
+
+}
