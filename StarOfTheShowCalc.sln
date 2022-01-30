@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarOfTheShowCalc", "StarOfTheShowCalc\StarOfTheShowCalc.csproj", "{B299AD90-1262-46C3-9801-21799626F317}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarOfTheShowCalc", "StarOfTheShowCalc\StarOfTheShowCalc.csproj", "{B299AD90-1262-46C3-9801-21799626F317}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarOfTheShowCalcTest", "StarOfTheShowCalcTest\StarOfTheShowCalcTest.csproj", "{890B77A7-AB4D-425C-8E27-326671F72BF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B299AD90-1262-46C3-9801-21799626F317}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B299AD90-1262-46C3-9801-21799626F317}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B299AD90-1262-46C3-9801-21799626F317}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890B77A7-AB4D-425C-8E27-326671F72BF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890B77A7-AB4D-425C-8E27-326671F72BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890B77A7-AB4D-425C-8E27-326671F72BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890B77A7-AB4D-425C-8E27-326671F72BF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

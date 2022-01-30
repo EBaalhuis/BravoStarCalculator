@@ -6,7 +6,7 @@
     }
 </style>
 
-<h1><i>Bravo, Star of the Show</i> calculator</h1>
+<h2><i>Bravo, Star of the Show</i> calculator</h2>
 
 <table>
     <tr>
@@ -49,7 +49,11 @@
     <p><h3>Result: @result%</h3></p>
 </div>
 
-<p></p>
+<p style="color:GrayText">
+    <small>
+        
+    </small>
+</p>
 
 @code {
     private int earth = 0;
@@ -110,7 +114,7 @@
     private void UpdateResult()
     {
         result = Calculator.Calculate(earth, ice, lightning, pulseEarthIce, pulseEarthLightning, pulseIceLightning, draw: draw);
-        result = Math.Round(result*100, 2);
+        result = Math.Round(result * 100, 2);
     }
 
 }
