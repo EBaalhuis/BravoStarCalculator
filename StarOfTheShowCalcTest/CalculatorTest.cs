@@ -91,5 +91,15 @@ namespace StarOfTheShowCalcTest
                 pulseEarthIce: 1, pulseEarthLightning: 0, pulseIceLightning: 0, draw: 4);
             Assert.AreEqual(expected, actual, Delta);
         }
+
+        [TestMethod]
+        [DataRow(3, 1)]
+        [DataRow(4, 1)]
+        [DataRow(5, 0.4)]
+        public void SmallDeck(int deckSize, double expected)
+        {
+            var actual = Calculator.Calculate(earth: 1, ice: 1, lightning: 1, deckSize: deckSize);
+            Assert.AreEqual(expected, actual, Delta);
+        }
     }
 }

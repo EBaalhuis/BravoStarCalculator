@@ -20,6 +20,10 @@ public static class Calculator
 {
     public static double Calculate(int earth, int ice, int lightning, int pulseEarthIce=0, int pulseEarthLightning=0, int pulseIceLightning=0, int deckSize=60, int draw=4)
     {
+        if (deckSize < earth + ice + lightning + pulseEarthIce + pulseEarthLightning + pulseIceLightning) return 0;
+
+        if (draw > deckSize) draw = deckSize;
+
         int rest = deckSize - earth - ice - lightning - pulseEarthIce - pulseEarthLightning - pulseIceLightning;
         return (nCr(earth, 1) * nCr(ice, 1) * nCr(lightning, 1) * nCr(rest, draw - 3)
               + nCr(earth, 2) * nCr(ice, 1) * nCr(lightning, 1) * nCr(rest, draw - 4)

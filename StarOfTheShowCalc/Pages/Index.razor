@@ -10,18 +10,31 @@
 
 <table>
     <tr>
+        <td>Cards in deck (max 80)</td>
+        <td>
+            <input type="number" style="width:80px;" maxlength="2" value="@deckSize" max="80" min="0" 
+                   @onchange="eventArgs => { UpdateNumber(3, eventArgs.Value); }"/>
+        </td>
+    </tr>
+
+    <tr>
         <td>Earth cards (excl Pulses)</td>
-        <td><input type="number" style="width:80px;" maxlength="2" @onchange="eventArgs => { UpdateNumber(0, eventArgs.Value); }"/></td>
+        <td>
+            <input type="number" style="width:80px;" maxlength="2" min="0"
+                   @onchange="eventArgs => { UpdateNumber(0, eventArgs.Value); }"/>
+        </td>
     </tr>
 
     <tr>
         <td>Ice cards (excl Pulses)</td>
-        <td><input type="number" style="width:80px;" maxlength="2" @onchange="eventArgs => { UpdateNumber(1, eventArgs.Value); }" /></td>
+        <td><input type="number" style="width:80px;" maxlength="2" min="0"
+                   @onchange="eventArgs => { UpdateNumber(1, eventArgs.Value); }" /></td>
     </tr>
 
     <tr>
         <td>Lightning cards (excl Pulses)</td>
-        <td><input type="number" style="width:80px;" @onchange="eventArgs => { UpdateNumber(2, eventArgs.Value); }" /></td>
+        <td><input type="number" style="width:80px;" maxlength="2" min="0"
+                   @onchange="eventArgs => { UpdateNumber(2, eventArgs.Value); }" /></td>
     </tr>
 
     <tr>
@@ -72,6 +85,7 @@
     private void UpdateNumber(int element, object value)
     {
         int res = int.Parse((string)value);
+        if (res < 0) res = 0;
         switch(element)
         {
             case 0:
@@ -82,6 +96,9 @@
                 break;
             case 2:
                 lightning = res;
+                break;
+            case 3:
+                deckSize = Math.Min(80, res);
                 break;
         }
         UpdateResult();
@@ -113,7 +130,7 @@
 
     private void UpdateResult()
     {
-        result = Calculator.Calculate(earth, ice, lightning, pulseEarthIce, pulseEarthLightning, pulseIceLightning, draw: draw);
+        result = Calculator.Calculate(earth, ice, lightning, pulseEarthIce, pulseEarthLightning, pulseIceLightning, deckSize: deckSize, draw: draw);
         result = Math.Round(result * 100, 2);
     }
 
