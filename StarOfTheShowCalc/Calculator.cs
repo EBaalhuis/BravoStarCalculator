@@ -25,7 +25,18 @@ public static class Calculator
         if (draw > deckSize) draw = deckSize;
 
         int rest = deckSize - earth - ice - lightning - pulseEarthIce - pulseEarthLightning - pulseIceLightning;
-        return (nCr(earth, 1) * nCr(ice, 1) * nCr(lightning, 1) * nCr(rest, draw - 3)
+        return (CombinationsWithoutPulse(earth, ice, lightning, rest, deckSize, draw)
+              + CombinationsWithSinglePulse(pulseEarthIce, lightning, otherPulses: pulseEarthLightning + pulseIceLightning, deckSize, draw)
+              + CombinationsWithSinglePulse(pulseEarthLightning, ice, otherPulses: pulseEarthIce + pulseIceLightning, deckSize, draw)
+              + CombinationsWithSinglePulse(pulseIceLightning, earth, otherPulses: pulseEarthLightning + pulseEarthIce, deckSize, draw)
+              + CombinationsWithDoublePulse(pulseEarthIce, pulseEarthLightning, pulseIceLightning, deckSize, draw)
+              + CombinationsWithTriplePulse(pulseEarthIce, pulseEarthLightning, pulseIceLightning, deckSize, draw))
+              / (double)nCr(deckSize, draw);
+    }
+
+    private static double CombinationsWithoutPulse(int earth, int ice, int lightning, int rest, int deckSize=60, int draw=4)
+    {
+        return nCr(earth, 1) * nCr(ice, 1) * nCr(lightning, 1) * nCr(rest, draw - 3)
               + nCr(earth, 2) * nCr(ice, 1) * nCr(lightning, 1) * nCr(rest, draw - 4)
               + nCr(earth, 1) * nCr(ice, 2) * nCr(lightning, 1) * nCr(rest, draw - 4)
               + nCr(earth, 1) * nCr(ice, 1) * nCr(lightning, 2) * nCr(rest, draw - 4)
@@ -34,18 +45,13 @@ public static class Calculator
               + nCr(earth, 1) * nCr(ice, 2) * nCr(lightning, 2) * nCr(rest, draw - 5)
               + nCr(earth, 3) * nCr(ice, 1) * nCr(lightning, 1) * nCr(rest, draw - 5)
               + nCr(earth, 1) * nCr(ice, 3) * nCr(lightning, 1) * nCr(rest, draw - 5)
-              + nCr(earth, 1) * nCr(ice, 1) * nCr(lightning, 3) * nCr(rest, draw - 5)
-              + CombinationsWithSinglePulse(pulseEarthIce, lightning, deckSize, draw)
-              + CombinationsWithSinglePulse(pulseEarthLightning, ice, deckSize, draw)
-              + CombinationsWithSinglePulse(pulseIceLightning, earth, deckSize, draw)
-              + CombinationsWithDoublePulse(pulseEarthIce, pulseEarthLightning, pulseIceLightning, deckSize, draw))
-              / (double)nCr(deckSize, draw);
+              + nCr(earth, 1) * nCr(ice, 1) * nCr(lightning, 3) * nCr(rest, draw - 5);
     }
 
-    private static double CombinationsWithSinglePulse(int pulse, int otherElement, int deckSize=60, int draw=4)
+    private static double CombinationsWithSinglePulse(int pulse, int otherElement, int otherPulses=0, int deckSize=60, int draw=4)
     {
         if (pulse == 0) return 0;
-        int rest = deckSize - pulse - otherElement;
+        int rest = deckSize - pulse - otherElement - otherPulses;
         return nCr(otherElement, 1) * nCr(rest, draw - 2)
              + nCr(otherElement, 2) * nCr(rest, draw - 3)
              + nCr(otherElement, 3) * nCr(rest, draw - 4)
@@ -54,9 +60,16 @@ public static class Calculator
 
     private static double CombinationsWithDoublePulse(int pulseEarthIce, int pulseEarthLightning, int pulseIceLightning, int deckSize=60, int draw=4)
     {
-        return nCr(pulseEarthIce, 1) * nCr(pulseEarthLightning, 1) * nCr(deckSize - pulseEarthIce - pulseEarthLightning, draw - 2)
-             + nCr(pulseEarthIce, 1) * nCr(pulseIceLightning, 1) * nCr(deckSize - pulseEarthIce - pulseIceLightning, draw - 2)
-             + nCr(pulseEarthLightning, 1) * nCr(pulseIceLightning, 1) * nCr(deckSize - pulseEarthLightning - pulseIceLightning, draw - 2);
+        int totalPulses = pulseEarthIce + pulseEarthLightning + pulseIceLightning;
+        return nCr(pulseEarthIce, 1) * nCr(pulseEarthLightning, 1) * nCr(deckSize - totalPulses, draw - 2)
+             + nCr(pulseEarthIce, 1) * nCr(pulseIceLightning, 1) * nCr(deckSize - totalPulses, draw - 2)
+             + nCr(pulseEarthLightning, 1) * nCr(pulseIceLightning, 1) * nCr(deckSize - totalPulses, draw - 2);
+    }
+
+    private static double CombinationsWithTriplePulse(int pulseEarthIce, int pulseEarthLightning, int pulseIceLightning, int deckSize = 60, int draw = 4)
+    {
+        int totalPulses = pulseEarthIce + pulseEarthLightning + pulseIceLightning;
+        return nCr(totalPulses, 3) * nCr(deckSize - totalPulses, draw - 3);
     }
 
     private static double nCr(int n, int r)

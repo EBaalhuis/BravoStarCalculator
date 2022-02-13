@@ -101,5 +101,35 @@ namespace StarOfTheShowCalcTest
             var actual = Calculator.Calculate(earth: 1, ice: 1, lightning: 1, deckSize: deckSize);
             Assert.AreEqual(expected, actual, Delta);
         }
+
+        [TestMethod]
+        [DataRow(4, 1)]
+        public void TwoPulses(int deckSize, double expected)
+        {
+            var actual = Calculator.Calculate(earth: 0, ice: 0, lightning: 0,
+                pulseEarthIce: 1, pulseEarthLightning: 1, pulseIceLightning: 0,
+                deckSize: deckSize, draw: 4);
+            Assert.AreEqual(expected, actual, Delta);
+        }
+
+        [TestMethod]
+        [DataRow(4, 1)]
+        public void ThreePulses(int deckSize, double expected)
+        {
+            var actual = Calculator.Calculate(earth: 0, ice: 0, lightning: 0, 
+                pulseEarthIce: 1, pulseEarthLightning: 1, pulseIceLightning: 1,
+                deckSize: deckSize, draw: 4);
+            Assert.AreEqual(expected, actual, Delta);
+        }
+
+        [TestMethod]
+        public void MaxWithDraw4()
+        {
+            var expected = 0.518;
+            var actual = Calculator.Calculate(earth: 19, ice: 19, lightning: 19,
+                pulseEarthIce: 1, pulseEarthLightning: 1, pulseIceLightning: 1,
+                deckSize: 60, draw: 4);
+            Assert.AreEqual(expected, actual, 0.001);
+        }
     }
 }
