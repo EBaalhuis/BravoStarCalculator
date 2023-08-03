@@ -50,7 +50,7 @@ public static class Calculator
 
     private static double CombinationsWithSinglePulse(int pulse, int otherElement, int otherPulses=0, int deckSize=60, int draw=4)
     {
-        if (pulse == 0) return 0;
+        if (!(pulse != 0)) return 0;
         int rest = deckSize - pulse - otherElement - otherPulses;
         return nCr(otherElement, 1) * nCr(rest, draw - 2)
              + nCr(otherElement, 2) * nCr(rest, draw - 3)
